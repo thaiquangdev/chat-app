@@ -46,7 +46,7 @@ const Register = () => {
 
     const success = validationForm();
 
-    if (success === true) signup(formData);
+    if (success) signup(formData);
   };
 
   return (

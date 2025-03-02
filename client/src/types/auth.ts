@@ -3,12 +3,22 @@ export interface User {
   fullName: string;
   email: string;
   profilePic?: string;
+  createdAt: string;
 }
 
 export interface UserSignup {
   fullName: string;
   email: string;
   password: string;
+}
+
+export interface UserSignin {
+  email: string;
+  password: string;
+}
+
+export interface UserUpdateProfile {
+  profilePic: string;
 }
 
 export interface AuthState {
@@ -19,5 +29,7 @@ export interface AuthState {
   isCheckingAuth: boolean;
   checkAuth: () => Promise<void>;
   signup: (data: UserSignup) => Promise<void>;
+  signin: (data: UserSignin) => Promise<void>;
   logout: () => Promise<void>;
+  updateProfile: (data: UserUpdateProfile) => Promise<void>;
 }

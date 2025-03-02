@@ -1,7 +1,12 @@
 import toast from "react-hot-toast";
 import { create } from "zustand";
 import { axiosInstance } from "~/lib/axios";
-import { AuthState, UserSignup } from "~/types/auth";
+import {
+  AuthState,
+  UserSignin,
+  UserSignup,
+  UserUpdateProfile,
+} from "~/types/auth";
 
 // Tạo Zustand store với TypeScript
 export const useAuthStore = create<AuthState>((set) => ({
@@ -36,6 +41,19 @@ export const useAuthStore = create<AuthState>((set) => ({
     }
   },
 
+  signin: async (data: UserSignin) => {
+    set({ isLoggingIn: true });
+    try {
+      const response = await axiosInstance.post("/auth/login", data);
+      set({ authUser: response.data.data });
+      toast.success("Đăng nhập thành công");
+    } catch (error) {
+      toast.error(error.response.data.message);
+    } finally {
+      set({ isLoggingIn: false });
+    }
+  },
+
   logout: async () => {
     try {
       await axiosInstance.post("/auth/logout");
@@ -43,6 +61,19 @@ export const useAuthStore = create<AuthState>((set) => ({
       toast.success("Đăng xuất thành công");
     } catch (error) {
       toast.error(error.response.data.message);
+    }
+  },
+
+  updateProfile: async (data: UserUpdateProfile) => {
+    set({ isUpdatingProfile: true });
+    try {
+      const response = await axiosInstance.put("/user/update-profie", data);
+      set({ authUser: response.data.data });
+      toast.success("Upload ảnh thành công");
+    } catch (error) {
+      toast.error(error.response.data.message);
+    } finally {
+      set({ isUpdatingProfile: false });
     }
   },
 }));
