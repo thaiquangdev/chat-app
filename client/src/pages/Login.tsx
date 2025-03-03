@@ -125,7 +125,7 @@ const Login = () => {
           <div className="text-center">
             <p className="text-base-content/60">
               Bạn chưa có tài khoản?
-              <Link to="/reigister" className="link link-primary">
+              <Link to="/register" className="link link-primary">
                 Đăng ký
               </Link>
             </p>

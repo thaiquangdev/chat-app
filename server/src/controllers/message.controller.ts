@@ -12,8 +12,7 @@ export const getMessages = expressAsyncHandler(async (req: Request, res: Respons
 })
 
 export const sendMessage = expressAsyncHandler(async (req: Request, res: Response) => {
-  const { text, image } = req.body
-  const { id: receiverId } = req.params
+  const { text, image, id: receiverId } = req.body
   const senderId = req.user._id
 
   const message = await sendMessageService(image, text, receiverId, senderId)

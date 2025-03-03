@@ -15,6 +15,7 @@ export const useAuthStore = create<AuthState>((set) => ({
   isLoggingIn: false,
   isUpdatingProfile: false,
   isCheckingAuth: true,
+  onlineUsers: [],
 
   checkAuth: async () => {
     try {
@@ -67,8 +68,8 @@ export const useAuthStore = create<AuthState>((set) => ({
   updateProfile: async (data: UserUpdateProfile) => {
     set({ isUpdatingProfile: true });
     try {
-      const response = await axiosInstance.put("/user/update-profie", data);
-      set({ authUser: response.data.data });
+      const response = await axiosInstance.put("/user/update-profile", data);
+      set({ authUser: response.data.data.update });
       toast.success("Upload ảnh thành công");
     } catch (error) {
       toast.error(error.response.data.message);

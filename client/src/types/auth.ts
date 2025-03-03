@@ -1,5 +1,5 @@
-export interface User {
-  id: string;
+export interface UserType {
+  _id: string;
   fullName: string;
   email: string;
   profilePic?: string;
@@ -22,11 +22,13 @@ export interface UserUpdateProfile {
 }
 
 export interface AuthState {
-  authUser: User | null;
+  authUser: UserType | null;
   isSigningUp: boolean;
   isLoggingIn: boolean;
   isUpdatingProfile: boolean;
   isCheckingAuth: boolean;
+  onlineUsers: UserType[];
+
   checkAuth: () => Promise<void>;
   signup: (data: UserSignup) => Promise<void>;
   signin: (data: UserSignin) => Promise<void>;
