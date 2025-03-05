@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 import { User } from "lucide-react";
 
@@ -13,10 +13,15 @@ const Sidebar = () => {
     useChatStore();
 
   const { onlineUsers } = useAuthStore();
+  const [showOnlineOnly, setShowOnlineOnly] = useState<boolean>(false);
 
   useEffect(() => {
     getUsers();
   }, [getUsers]);
+
+  const filteredUser = showOnlineOnly
+    ? users.filter((user) => onlineUsers.includes(user._id))
+    : users;
 
   if (isUsersLoading) return <SidebarSkeleton />;
 
@@ -28,10 +33,23 @@ const Sidebar = () => {
           <span className="font-medium hidden lg:block">Liên hệ</span>
         </div>
         {/* show online filter toggle */}
+        <div className="mt-3 hidden lg:flex items-center gap-2">
+          <label className="cursor-pointer flex items-center gap-2">
+            <input
+              type="checkbox"
+              checked={showOnlineOnly}
+              onChange={(e) => setShowOnlineOnly(e.target.checked)}
+            />
+            <span className="text-sm">Hiển thị người dùng hoạt động</span>
+          </label>
+          <span className="text-xs text-zinc-500">
+            ({onlineUsers.length - 1} hoạt động)
+          </span>
+        </div>
       </div>
 
       <div className="overflow-y-auto w-full p-3">
-        {users.map((user) => (
+        {filteredUser.map((user) => (
           <button
             key={user.id}
             onClick={() => setSelectedUser(user)}
@@ -61,6 +79,12 @@ const Sidebar = () => {
             </div>
           </button>
         ))}
+
+        {filteredUser.length === 0 && (
+          <div className="text-center text-zinc-500 py-4">
+            Không có người dùng hoạt động
+          </div>
+        )}
       </div>
     </aside>
   );

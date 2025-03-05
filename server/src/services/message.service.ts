@@ -1,4 +1,5 @@
 import cloudinary from '~/libs/cloudinary'
+import { getReceiverSocketId, io } from '~/libs/socket'
 import Message from '~/models/message.model'
 
 export const getMessagesService = async (userId: string, chatPartnerId: string) => {
@@ -25,6 +26,11 @@ export const sendMessageService = async (image: string, text: string, receiverId
   })
 
   await newMessage.save()
+
+  const receiverSocketId = getReceiverSocketId(receiverId)
+  if (receiverSocketId) {
+    io.to(receiverSocketId).emit('newMessage', newMessage)
+  }
 
   return newMessage
 }

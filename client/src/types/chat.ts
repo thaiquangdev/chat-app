@@ -20,4 +20,6 @@ export interface ChatStore {
   getMessages: (userId: string) => Promise<void>;
   sendMessage: (data: { text: string; image: string }) => Promise<void>;
   setSelectedUser: (selectedUser: UserType | null) => void;
+  subcribeToMessages: () => void;
+  unsubcribeToMessages: () => void;
 }

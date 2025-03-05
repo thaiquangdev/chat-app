@@ -11,10 +11,9 @@ import { errorMiddleware } from './middlewares/error.middleware'
 import authRoutes from '~/routes/auth.route'
 import userRoutes from '~/routes/user.route'
 import messageRoutes from '~/routes/message.route'
+import { app, server } from './libs/socket'
 
 dotenv.config()
-
-const app = express()
 
 const port = process.env.PORT
 
@@ -36,7 +35,7 @@ app.use('/api/message', messageRoutes)
 
 app.use(errorMiddleware)
 
-app.listen(port, () => {
+server.listen(port, () => {
   console.log(`Server is running on ${port}`)
   connectDB()
 })
