@@ -4,6 +4,7 @@ import cookieParser from 'cookie-parser'
 import cors from 'cors'
 
 import { connectDB } from './libs/db'
+import { app, server } from './libs/socket'
 
 import { responseMiddleware } from './middlewares/response.middleware'
 import { errorMiddleware } from './middlewares/error.middleware'
@@ -11,7 +12,7 @@ import { errorMiddleware } from './middlewares/error.middleware'
 import authRoutes from '~/routes/auth.route'
 import userRoutes from '~/routes/user.route'
 import messageRoutes from '~/routes/message.route'
-import { app, server } from './libs/socket'
+import groupRoutes from '~/routes/group.route'
 
 dotenv.config()
 
@@ -31,6 +32,7 @@ app.use(responseMiddleware)
 
 app.use('/api/auth', authRoutes)
 app.use('/api/user', userRoutes)
+app.use('/api/group', groupRoutes)
 app.use('/api/message', messageRoutes)
 
 app.use(errorMiddleware)

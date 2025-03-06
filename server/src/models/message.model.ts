@@ -3,7 +3,8 @@ import mongoose, { Document, Schema } from 'mongoose'
 export interface IMessage extends Document {
   _id: string
   senderId: mongoose.Schema.Types.ObjectId
-  receiverId: mongoose.Schema.Types.ObjectId
+  receiverId?: mongoose.Schema.Types.ObjectId
+  groupId?: mongoose.Schema.Types.ObjectId
   text: string
   image: string
   createdAt: Date
@@ -19,8 +20,11 @@ const messageSchema = new Schema<IMessage>(
     },
     receiverId: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: 'User',
-      required: true
+      ref: 'User'
+    },
+    groupId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Group'
     },
     text: {
       type: String
